@@ -436,8 +436,8 @@ let g:user_zen_settings = {
 imap {<CR> {}<ESC>i<CR><ESC>O
 
 " NERDTree settings
-nmap wo :NERDTree<cr>
-nmap wc :NERDTreeClose<cr>
+"nmap wo :NERDTree<cr>
+"nmap wc :NERDTreeClose<cr>
 let NERDTreeIgnore=['\.swp$']
 
 let g:NERDTreeWinPos = 'left'
@@ -498,6 +498,7 @@ map <Leader>lm :RTmigration<cr>
 map <Leader>r :Rintegrationtest<space>
 map <Leader>rs :RSintegrationtest<space>
 map <Leader>rt :RTintegrationtest<space>
+map <Leader>g :!zeal --query "<cword>"&<CR><CR>
 vmap <Leader>z :call I18nTranslateString()<CR>
 
 map <Leader>t :!rspec `git list-branch-tests`<cr>
@@ -549,4 +550,4 @@ endf
 
 :au VimEnter * :call LoadNERDTree()
 set guifont=Inconsolata\ 12
-colorscheme railscast
+colorscheme vividchalk
