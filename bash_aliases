@@ -39,5 +39,7 @@ alias modftest='rspec `git list-branch-tests`'
 alias server='RAILS_RELATIVE_URL_ROOT=/contabil bundle exec unicorn -p 3000'
 alias up_services='bundle exec rake thinking_sphinx:start && redis'
 alias git_search='git rev-list --all | xargs git grep -F'
+alias rake='bundle exec rake'
+alias rspec='bundle exec rspec'
 
 

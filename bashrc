@@ -149,5 +149,18 @@ export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
 export PATH="$HOME/Projects/Opensource/pomo:$PATH"
+export PATH="$HOME/Projects/Opensource/tldr:$PATH"
 
 stty -ixon
+eval "$(xrdb -merge ~/.Xdefaults)"
+
+
+google() {
+    search=""
+    echo "Googling: $@"
+    for term in $@; do
+        search="$search%20$term"
+    done
+    xdg-open "http://www.google.com/search?q=$search"
+}
+
