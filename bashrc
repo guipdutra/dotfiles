@@ -138,13 +138,6 @@ function git-pull-request() {
   hub pull-request -i $1 -h "nohupbrasil:`git symbolic-ref --short -q HEAD`"
 }
 
-function pr () {
-  local repo=`git remote -v | grep -m 1 "(push)" | sed -e "s/.*github.com[:/]\(.*\)\.git.*/\1/"`
-    local branch=`git name-rev --name-only HEAD`
-      echo "... creating pull request for branch \"$branch\" in \"$repo\""
-        open https://github.com/$repo/pull/new/$branch
-    }
-export -f pr
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
@@ -164,3 +157,5 @@ google() {
     xdg-open "http://www.google.com/search?q=$search"
 }
 
+export QWANDRY_EDITOR="vim"
+source ~/.fzf.bash

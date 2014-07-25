@@ -475,6 +475,9 @@ map <C-B> :make<CR>
 map <F3> :RunSpecLine<cr>
 map <F2> :RunSpec<cr>
 map t :A<cr>
+map cpr :Require<cr>
+map cpR :Require!<cr>
+map cpp Require! <cr> :Eval<cr>
 map <Leader>st :GitStatus<cr>
 map <Leader>com :!git add . && git commit -m "WIP" <cr>
 vmap <Leader>b :<C-U>!git blame <C-R>=expand("%:p") <CR> \| sed -n <C-R>=line("'<") <CR>,<C-R>=line("'>") <CR>p <CR>
@@ -483,6 +486,7 @@ map <Leader>db :!rake db:migrate<cr>
 map <Leader>yy ggVG"*y
 map <Leader>f :Ag<space>
 map <Leader>on :split notes_about_refactoring.txt<cr>
+map <Leader>ot :split notes_about_task.txt<cr>
 
 map <Leader>m :Rmodel<space>
 map <Leader>ms :RSmodel<space>
@@ -549,5 +553,7 @@ function! LoadNERDTree()
 endf
 
 :au VimEnter * :call LoadNERDTree()
-set guifont=Inconsolata\ 12
-colorscheme vividchalk
+set guifont=Inconsolata\ 18
+colorscheme neon
+
+let g:turbux_command_rspec = 'rspec'

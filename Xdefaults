@@ -1,4 +1,4 @@
 *customization: -color
-XTerm*termName:  xterm-256color
+XTerm*termName: xterm-256color
 xterm*faceName: Inconsolata
-xterm*faceSize: 11
+xterm*faceSize: 12
