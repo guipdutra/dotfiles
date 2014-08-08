@@ -2,11 +2,38 @@
 let g:CSApprox_verbose_level = 0
 
 "load pathogen managed plugins
-call pathogen#infect()
+"call pathogen#infect()
 
 "Use Vim settings, rather then Vi settings (much better!).
 "This must be first, because it changes other options as a side effect.
 set nocompatible
+
+" Required Vundle setup
+filetype off
+set runtimepath+=~/.vim/bundle/vundle
+call vundle#rc()
+
+Bundle 'ervandew/supertab'
+Bundle 'gmarik/vundle'
+Bundle 'kien/ctrlp'
+Bundle 'mattn/gist-vim'
+Bundle 'othree/html5'
+Bundle 'scrooloose/nerdcommenter'
+Bundle 'scrooloose/nerdtree'
+Bundle 'sjl/gundo'
+Bundle 'tpope/vim-endwise'
+Bundle 'tpope/vim-markdown'
+Bundle 'tpope/vim-ragtag'
+Bundle 'tpope/vim-rails'
+Bundle 'tpope/vim-surround'
+Bundle 'SirVer/ultisnips'
+Bundle 'terryma/vim-multiple-cursors'
+Bundle 'jistr/vim-nerdtree-tabs'
+Bundle 'rainerborene/vim-reek'
+Bundle 'skwp/vim-rspec'
+Bundle 'mikewest/vimroom'
+Bundle 'Keithbsmiley/investigate'
+
 
 "allow backspacing over everything in insert mode
 set backspace=indent,eol,start
@@ -553,7 +580,12 @@ function! LoadNERDTree()
 endf
 
 :au VimEnter * :call LoadNERDTree()
-set guifont=Inconsolata\ 18
+set guifont=Inconsolata\ 10
 colorscheme neon
 
 let g:turbux_command_rspec = 'rspec'
+
+set nocompatible
+filetype plugin on
+syntax on
+set synmaxcol=120

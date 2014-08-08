@@ -159,3 +159,6 @@ google() {
 
 export QWANDRY_EDITOR="vim"
 source ~/.fzf.bash
+
+export ADZERK_API_KEY="fe6c7776a1782a43bcab141a9c5e1cd24df7"
+export ADZERK_API_HOST='http://manage.41ads.net/'
