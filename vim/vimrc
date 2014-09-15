@@ -1,39 +1,74 @@
 "avoiding annoying CSApprox warning message
 let g:CSApprox_verbose_level = 0
 
-"load pathogen managed plugins
-"call pathogen#infect()
-
-"Use Vim settings, rather then Vi settings (much better!).
-"This must be first, because it changes other options as a side effect.
-set nocompatible
-
 " Required Vundle setup
+set nocompatible
 filetype off
-set runtimepath+=~/.vim/bundle/vundle
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
+Bundle 'gmarik/Vundle.vim'
 Bundle 'ervandew/supertab'
-Bundle 'gmarik/vundle'
-Bundle 'kien/ctrlp'
+Bundle 'christoomey/vim-tmux-navigator'
+Bundle 'kien/ctrlp.vim'
 Bundle 'mattn/gist-vim'
-Bundle 'othree/html5'
+Bundle 'mattn/webapi-vim'
+Bundle 'othree/html5.vim'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'scrooloose/nerdtree'
-Bundle 'sjl/gundo'
+Bundle 'sjl/gundo.vim'
+Bundle 'tpope/vim-rails'
 Bundle 'tpope/vim-endwise'
 Bundle 'tpope/vim-markdown'
 Bundle 'tpope/vim-ragtag'
-Bundle 'tpope/vim-rails'
 Bundle 'tpope/vim-surround'
 Bundle 'SirVer/ultisnips'
+Bundle 'honza/vim-snippets'
 Bundle 'terryma/vim-multiple-cursors'
 Bundle 'jistr/vim-nerdtree-tabs'
 Bundle 'rainerborene/vim-reek'
-Bundle 'skwp/vim-rspec'
+Bundle 'thoughtbot/vim-rspec'
+Bundle 'tpope/vim-dispatch'
 Bundle 'mikewest/vimroom'
-Bundle 'Keithbsmiley/investigate'
+Bundle 'Keithbsmiley/investigate.vim'
+Bundle "MarcWeber/vim-addon-mw-utils"
+Bundle "tomtom/tlib_vim"
 
+Bundle "Raimondi/delimitMate"
+
+Bundle  'guns/vim-clojure-static'
+Bundle  'tpope/vim-classpath'
+Bundle  'tpope/vim-fireplace'
+
+"Colors
+Bundle 'nanotech/jellybeans.vim'
+
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+let g:rspec_command = "Dispatch rspec {spec}"
+
+let mapleader = "\<Space>"
+
+let delimitMate_expand_cr = 1
+
+
+autocmd Filetype java set makeprg=javac\ %
+set errorformat=%A%f:%l:\ %m,%-Z%p^,%-C%.%#
+map <Leader>ma :make<Return>:copen<Return>
+
+" RSpec.vim mappings
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+map <Leader>a :call RunAllSpecs()<CR>
+
+" Trigger configuration. Do not use <tab> if you use
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+"
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
 
 "allow backspacing over everything in insert mode
 set backspace=indent,eol,start
@@ -74,21 +109,6 @@ set visualbell t_vb=
 nmap <Down> gj
 nmap <Up> gk
 set fo=l
-
-"statusline setup
-set statusline=%f       "tail of the filename
-
-"Git
-set statusline+=%{fugitive#statusline()}
-
-"RVM
-set statusline+=%{exists('g:loaded_rvm')?rvm#statusline():''}
-
-set statusline+=%=      "left/right separator
-set statusline+=%c,     "cursor column
-set statusline+=%l/%L   "cursor line/total lines
-set statusline+=\ %P    "percent through file
-set laststatus=2
 
 " Fuzzy finder: ignore stuff that can't be opened, and generated files
 let g:fuzzy_ignore = "*.png;*.PNG;*.JPG;*.jpg;*.GIF;*.gif;vendor/**;coverage/**;tmp/**;rdoc/**"
@@ -258,14 +278,14 @@ if has("gui_running")
     "tell the term has 256 colors
     set t_Co=256
 
-    colorscheme railscast
+    colorscheme jellybeans
     set guitablabel=%M%t
     set lines=40
     set columns=115
 
     if has("gui_gnome")
         set term=gnome-256color
-        colorscheme railscast
+        colorscheme jellybeans
         set guifont=Monospace\ Bold\ 17
     endif
 
@@ -282,17 +302,17 @@ else
     "dont load csapprox if there is no gui support - silences an annoying warning
     let g:CSApprox_loaded = 1
 
-    "set railscasts colorscheme when running vim in gnome terminal
+    "set jellybeanss colorscheme when running vim in gnome terminal
     if $COLORTERM == 'gnome-terminal'
         set term=gnome-256color
         set t_Co=256
-        colorscheme railscast
+        colorscheme jellybeans
     else
         if $TERM == 'xterm'
             set term=xterm-256color
-            colorscheme railscast
+            colorscheme jellybeans
         else
-            colorscheme railscast
+            colorscheme jellybeans
         endif
     endif
 endif
@@ -301,7 +321,7 @@ endif
 " else in your ~/.vimrc file, such as:
 " nmap <silent> <Leader>q <Plug>PeepOpen
 
-silent! nmap <silent> <Leader>p :NERDTreeToggle<CR>
+silent! nmap <silent> <Leader>k :NERDTreeToggle<CR>
 
 "make <c-l> clear the highlight as well as redraw
 nnoremap <C-L> :nohls<CR><C-L>
@@ -311,9 +331,6 @@ inoremap <C-L> <C-O>:nohls<CR>
 nnoremap <leader>b :BufExplorer<cr>
 
 let g:ruby_path = system('rvm current')
-
-"map to CommandT TextMate style finder
-nnoremap <leader>t :CommandT<CR>
 
 "map Q to something useful
 noremap Q gq
@@ -336,38 +353,7 @@ map <A-j> :cnext<CR>
 map <A-k> :cprevious<CR>
 
 "key mapping for Gundo
-nnoremap <F4> :GundoToggle<CR>
-
-"snipmate setup
-try
-  source ~/.vim/snippets/support_functions.vim
-catch
-  source ~/vimfiles/snippets/support_functions.vim
-endtry
-autocmd vimenter * call s:SetupSnippets()
-function! s:SetupSnippets()
-
-    "if we're in a rails env then read in the rails snippets
-    if filereadable("./config/environment.rb")
-      try
-        call ExtractSnips("~/.vim/snippets/ruby-rails", "ruby")
-        call ExtractSnips("~/.vim/snippets/eruby-rails", "eruby")
-      catch
-        call ExtractSnips("~/vimfiles/snippets/ruby-rails", "ruby")
-        call ExtractSnips("~/vimfiles/snippets/eruby-rails", "eruby")
-      endtry
-    endif
-
-    try
-      call ExtractSnips("~/.vim/snippets/html", "eruby")
-      call ExtractSnips("~/.vim/snippets/html", "xhtml")
-      call ExtractSnips("~/.vim/snippets/html", "php")
-    catch
-      call ExtractSnips("~/vimfiles/snippets/html", "eruby")
-      call ExtractSnips("~/vimfiles/snippets/html", "xhtml")
-      call ExtractSnips("~/vimfiles/snippets/html", "php")
-    endtry
-endfunction
+nnoremap <Leader>gu :GundoToggle<CR>
 
 "visual search mappings
 function! s:VSetSearch()
@@ -425,7 +411,6 @@ map <C-k> <C-w>k
 map <C-l> <C-w>l
 
 "key mapping for saving file
-nmap <C-s> :w<CR>
 nmap <c-s> :w<CR>
 imap <c-s> <Esc>:w<CR>a
 imap <c-s> <Esc><c-s>
@@ -484,8 +469,7 @@ map <Right> <Nop>
 map <Up> <Nop>
 map <Down> <Nop>
 
-set noballooneval
-autocmd vimenter * NERDTree
+autocmd vimenter * NERDTreeClose
 set makeprg=ruby\ %
 set autowrite
 
@@ -531,8 +515,17 @@ map <Leader>rs :RSintegrationtest<space>
 map <Leader>rt :RTintegrationtest<space>
 map <Leader>g :!zeal --query "<cword>"&<CR><CR>
 vmap <Leader>z :call I18nTranslateString()<CR>
+vmap <Leader>y "+y
+vmap <Leader>d "+d
+nmap <Leader>p "+p
+nmap <Leader>P "+P
+vmap <Leader>p "+p
+vmap <Leader>P "+P
+nnoremap <Leader>o :CtrlP<CR>
 
-map <Leader>t :!rspec `git list-branch-tests`<cr>
+nnoremap <Leader>x :x<CR>
+nnoremap <Leader>q :q<CR>
+
 nnoremap <F5> :set hlsearch!<CR>
 
 set shellcmdflag=-ic
@@ -560,12 +553,9 @@ highlight StatusLine ctermfg=blue ctermbg=yellow
 set ruler
 set autoindent
 set smarttab
-set bg=light
-set bg=dark
 let g:reek_always_show = 0
-let g:ctrlp_custom_ignore = 'vendor'
-let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
+let g:ctrlp_use_caching = 0
 
 " Get rid of the delay when hitting esc!
 set noesckeys
@@ -575,17 +565,8 @@ vnoremap <C-y> "+y
 nnoremap <C-p> "+gP
 vnoremap <C-p> "+gP
 
-function! LoadNERDTree()
-  :NERDTreeClose
-endf
-
-:au VimEnter * :call LoadNERDTree()
-set guifont=Inconsolata\ 10
-colorscheme neon
-
 let g:turbux_command_rspec = 'rspec'
 
 set nocompatible
 filetype plugin on
 syntax on
-set synmaxcol=120
