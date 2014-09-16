@@ -570,3 +570,5 @@ let g:turbux_command_rspec = 'rspec'
 set nocompatible
 filetype plugin on
 syntax on
+
+let g:jellybeans_use_lowcolor_black = 0
